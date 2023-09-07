@@ -1,5 +1,5 @@
-@Library('jenkins-shared-library') _
-
+/*@Library('jenkins-shared-library') _
+*/
 pipeline {
 
     agent any
@@ -22,7 +22,11 @@ pipeline {
     }
    
     stages{
-         
+         stage('init') {
+      scripts {
+        library "jenkins-shared-library@main"
+      }
+   }
         stage('Git Checkout'){
                 when{expression{params.action == "create"}}    
             steps{
