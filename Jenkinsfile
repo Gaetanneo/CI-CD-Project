@@ -1,5 +1,5 @@
-/*@Library('jenkins-shared-library') _
-*/
+@Library('Jenkins-shared-library') _
+
 pipeline {
 
     agent any
@@ -7,36 +7,32 @@ pipeline {
     parameters
     {
         choice(name: 'action', choices: 'create\ndelete', description: 'choose create/Destroy')
-        string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '007572960009')
+        string(name: 'aws_account_id', description: " AWS Account ID", defaultValue: '910931000749')
         string(name: 'Region', description: "Region of ECR", defaultValue: 'us-east-1')
         string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javaapp')
         string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'v1')
-        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'Gaetanneo')
+        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'ganasai88')
         string(name: 'cluster', description: "name of the EKS Cluster", defaultValue: 'demo-cluster1')
     }
  
     environment{
 
-        ACCESS_KEY = credentials('AKIAQDQ3CGME7XLBT5E7')
-        SECRET_KEY = credentials('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')
+        ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
+        SECRET_KEY = credentials('AWS_SECRET_KEY_ID')
     }
    
     stages{
-         stage('init') {
-      scripts {
-        library "jenkins-shared-library@main"
-      }
-   }
+         
         stage('Git Checkout'){
                 when{expression{params.action == "create"}}    
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/Gaetanneo/CI-CD-Project.git"
+                url: "https://github.com/ganasai88/CI-CD-Project.git"
             )
             }
         }
-          
+         /* 
        stage('Unit Test maven'){
                when{expression{params.action == "create"}}      
             steps{
@@ -87,7 +83,7 @@ pipeline {
                }
             }
         }
-         
+         */
          
         stage('Docker Image Build'){
               when{expression{params.action == "create"}}       
@@ -98,7 +94,7 @@ pipeline {
                }
             }
         }
-         
+        /* 
         stage('Docker Image scan'){
               when{expression{params.action == "create"}}       
             steps{
@@ -126,8 +122,8 @@ pipeline {
                }
             }
         }
-        
-        
+        */
+       /* 
         stage('Create EKS cluster: Terraform'){
               when{expression{params.action == "create"}}       
             steps{
@@ -182,6 +178,6 @@ pipeline {
                }   
             }
         }
-       
+       */ 
     }
 }
